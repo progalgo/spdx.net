@@ -7,13 +7,17 @@ public sealed class ApiTest
     public void TestMethod1()
     {
         LicenseExpression expression = new("MIT OR Apache-2.0");
+        Assert.IsTrue(expression.Evaluate(new AcceptedLicensesContext { "MIT" }));
+        Assert.IsTrue(expression.Evaluate(new AcceptedLicensesContext { "Apache-2.0" }));
+        Assert.IsTrue(expression.Evaluate(new AcceptedLicensesContext { "MIT", "Apache-2.0" }));
+        Assert.IsFalse(expression.Evaluate(new AcceptedLicensesContext { "GPL-3.0" }));
     }
 
-    class TestLegalContext : ILegalContext<bool>
+    class AcceptedLicensesContext : HashSet<string>, ILegalContext<bool>
     {
         public bool Evaluate(License license, IEnumerable<Exception> exceptions)
         {
-            return true;
+            return this.Contains(license.Id);
         }
 
         public bool EvaluateOption(IEnumerable<bool> vals)
