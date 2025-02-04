@@ -46,7 +46,7 @@ type Parser_Should () =
     [<TestMethod>]
     member this.TestCompoundExpressionWithAnd () =
         let input = "MIT AND GPL-2.0"
-        let expected = And(With(LicenseId "MIT", None), With(LicenseId "GPL-2.0", None))
+        let expected = justLicense "MIT" &&& justLicense "GPL-2.0"
         match test input with
             | Ok result -> Assert.AreEqual<LicenseExpression>(expected, result)
             | Error msg -> Assert.Fail(msg)
@@ -54,7 +54,7 @@ type Parser_Should () =
     [<TestMethod>]
     member this.TestCompoundExpressionWithOr () =
         let input = "MIT OR GPL-2.0"
-        let expected = (Or(With(LicenseId "MIT", None), With(LicenseId "GPL-2.0", None)))
+        let expected = justLicense "MIT" ||| justLicense "GPL-2.0"
         match test input with
             | Ok result -> Assert.AreEqual<LicenseExpression>(expected, result)
             | Error msg -> Assert.Fail(msg)
@@ -62,7 +62,7 @@ type Parser_Should () =
     [<TestMethod>]
     member this.TestNestedCompoundExpression () =
         let input = "(MIT AND GPL-2.0) OR Apache-2.0"
-        let expected = Or(And(With(LicenseId "MIT", None), With(LicenseId "GPL-2.0", None)), With(LicenseId "Apache-2.0", None))
+        let expected = (justLicense "MIT" &&& justLicense "GPL-2.0") ||| justLicense "Apache-2.0"
         match test input with
             | Ok result -> Assert.AreEqual<LicenseExpression>(expected, result)
             | Error msg -> Assert.Fail(msg)
@@ -70,7 +70,7 @@ type Parser_Should () =
     [<TestMethod>]
     member this.TestComplexExpressionWithException () =
         let input = "MIT AND (GPL-2.0 WITH Classpath)"
-        let expected = And(With(LicenseId "MIT", None), With(LicenseId "GPL-2.0", Some (Exception "Classpath")))
+        let expected = justLicense "MIT" &&& With (LicenseId "GPL-2.0", (Some (Exception "Classpath")))
         match test input with
             | Ok result -> Assert.AreEqual<LicenseExpression>(expected, result)
             | Error msg -> Assert.Fail(msg)

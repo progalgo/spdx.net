@@ -8,6 +8,7 @@ module Parser =
     do ()
 
     open FParsec
+
     
 // SPDX License Expression grammar in ABNF
 //
@@ -26,18 +27,55 @@ module Parser =
 //   "(" compound-expression ")" )
 // license-expression = (simple-expression / compound-expression)
 
-    let idstring = many1Satisfy (fun c -> isLetter c || isDigit c || c = '-' || c = '.')
-    
+
     type License =
         | LicenseId of string
         | LicenseRef of string
 
-    type Exception = Exception of string
+        override this.ToString() =
+            match this with
+                | LicenseId id -> id
+                | LicenseRef ref -> ref
+
+    type Exception = 
+        | Exception of string
+
+        override this.ToString() =
+            match this with
+                | Exception ex -> ex
 
     type LicenseExpression =
         | With of License * Exception Option
-        | And of LicenseExpression * LicenseExpression
-        | Or of LicenseExpression * LicenseExpression
+        | And of LicenseExpression list
+        | Or of LicenseExpression list
+
+        override this.ToString() =
+            match this with
+                | With (l, None) -> $"{l}"
+                | With (l, Some  e) -> $"{l} WITH {e}"
+                | And ls -> "(" + System.String.Join(" AND ", Seq.map string ls) + ")"
+                | Or ls -> "(" + System.String.Join(" OR ", Seq.map string ls) + ")"
+        
+
+        static member (&&&) (l, r) =
+            match (l, r) with
+            | (And ls, And rs) -> And (ls @ rs)
+            | (And ls, r) -> And (ls @ [r])
+            | (l, And rs) -> And (l :: rs)
+            | (l, r) -> And [l; r]
+        
+        static member (|||) (l, r) =
+            match (l, r) with
+            | (Or ls, Or rs) -> Or (ls @ rs)
+            | (Or ls, r) -> Or (ls @ [r])
+            | (l, Or rs) -> Or (l :: rs)
+            | (l, r) -> Or [l; r]
+
+    let justLicense l = With(LicenseId l, None)
+    
+    let (^^) (l, e) = With(LicenseId l, Some (Exception e))
+
+    let idstring = many1Satisfy (fun c -> isLetter c || isDigit c || c = '-' || c = '.')
 
     let licenseRef =
         opt (pstring "DocumentRef-" >>. idstring .>> pstring ":") .>>. (pstring "LicenseRef-" >>. idstring) |>> fun (d, l) -> LicenseRef (sprintf "%sLicenseRef-%s" (defaultArg d "") l)
@@ -48,13 +86,13 @@ module Parser =
     ]
     
     let licenseWithException =
-        license .>>. opt (pstring " WITH " >>. idstring |>> Exception) |>> With
+        (license) .>>. opt ((pstring " WITH ") >>. idstring |>> Exception) |>> With
     
     let opp = new OperatorPrecedenceParser<LicenseExpression, unit, unit>()
 
-    opp.TermParser <- licenseWithException <|> between (pstring "(") (pstring ")") opp.ExpressionParser
+    opp.TermParser <- (licenseWithException) <|> between (pstring "(") (pstring ")") opp.ExpressionParser
 
-    opp.AddOperator(InfixOperator(" AND", spaces1, 1, Associativity.Left, fun x y -> And(x, y)))
-    opp.AddOperator(InfixOperator(" OR", spaces1, 2, Associativity.Left, fun x y -> Or(x, y)))
+    opp.AddOperator(InfixOperator(" AND", spaces, 1, Associativity.Left, fun x y -> x &&& y))
+    opp.AddOperator(InfixOperator(" OR", spaces, 2, Associativity.Left, fun x y -> x ||| y))
 
     let licenseExpr = opp.ExpressionParser
