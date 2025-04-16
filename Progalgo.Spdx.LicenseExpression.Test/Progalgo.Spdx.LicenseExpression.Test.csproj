@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Progalgo.SPDX.LicenseExpression/Progalgo.SPDX.LicenseExpression.fsproj" />
+    <ProjectReference Include="../Progalgo.Spdx.LicenseExpression/Progalgo.Spdx.LicenseExpression.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
