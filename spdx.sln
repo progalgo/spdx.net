@@ -2,11 +2,11 @@
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progalgo.SPDX.LicenseExpression", "Progalgo.SPDX.LicenseExpression\Progalgo.SPDX.LicenseExpression.fsproj", "{34DBC391-6D5F-E544-5942-5FB7DCD59A5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progalgo.Spdx.LicenseExpression", "Progalgo.Spdx.LicenseExpression\Progalgo.Spdx.LicenseExpression.fsproj", "{34DBC391-6D5F-E544-5942-5FB7DCD59A5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progalgo.SPDX.LicenseExpression.Test", "Progalgo.SPDX.LicenseExpression.Test\Progalgo.SPDX.LicenseExpression.Test.csproj", "{5B5C31DC-F8CB-EB6C-B26B-64325F9D4F6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Progalgo.Spdx.LicenseExpression.Test", "Progalgo.Spdx.LicenseExpression.Test\Progalgo.Spdx.LicenseExpression.Test.csproj", "{5B5C31DC-F8CB-EB6C-B26B-64325F9D4F6E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Progalgo.SPDX.LicenseExpression.ParserTests", "Progalgo.SPDX.LicenseExpression.ParserTests\Progalgo.SPDX.LicenseExpression.ParserTests.fsproj", "{BC9CC237-C813-4E1D-A8B6-2582ED1BDACB}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Progalgo.Spdx.LicenseExpression.ParserTests", "Progalgo.Spdx.LicenseExpression.ParserTests\Progalgo.Spdx.LicenseExpression.ParserTests.fsproj", "{BC9CC237-C813-4E1D-A8B6-2582ED1BDACB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
