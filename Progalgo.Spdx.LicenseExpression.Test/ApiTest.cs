@@ -1,4 +1,4 @@
-﻿namespace Progalgo.SPDX.Test;
+﻿namespace Progalgo.Spdx.Test;
 
 [TestClass]
 public sealed class ApiTest

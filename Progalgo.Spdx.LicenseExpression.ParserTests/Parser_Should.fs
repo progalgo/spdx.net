@@ -1,7 +1,7 @@
-﻿namespace Progalgo.SPDX.LicenseExpression.ParserTests
+﻿namespace Progalgo.Spdx.LicenseExpression.ParserTests
 
 open Microsoft.VisualStudio.TestTools.UnitTesting
-open Progalgo.SPDX.Parser
+open Progalgo.Spdx.Parser
 
 [<TestClass>]
 type Parser_Should () =

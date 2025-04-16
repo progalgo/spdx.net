@@ -1,8 +1,8 @@
-module Progalgo.SPDX.Parser
+module Progalgo.Spdx.Parser
 
 open System.Runtime.CompilerServices
 
-[<assembly: InternalsVisibleTo("Progalgo.SPDX.LicenseExpression.ParserTest")>]
+[<assembly: InternalsVisibleTo("Progalgo.Spdx.LicenseExpression.ParserTest")>]
 do ()
 
 open FParsec

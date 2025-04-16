@@ -1,4 +1,4 @@
-﻿namespace Progalgo.SPDX
+﻿namespace Progalgo.Spdx
 
 open Parser
 
